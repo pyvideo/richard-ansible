@@ -1,0 +1,59 @@
+---
+- name: check if richard is installed
+  stat: >
+    path=/usr/lib/virtualenvs/richard/lib/python2.7/site-packages/richard.egg-link
+    get_md5=no
+  register: richard_egg
+
+- name: install richard into venv
+  pip: "name=. chdir={{ richard_source }} extra_args='-e' virtualenv={{ richard_venv }}"
+  sudo: yes
+  when: not richard_egg.stat.exists
+
+- name: richard syncdb
+  environment:
+    DJANGO_CONFIGURATION: Dev
+  django_manage: >
+    command=syncdb
+    virtualenv="{{ richard_venv }}"
+    app_path="{{ richard_source }}"
+    python_path="{{ richard_source }}"
+    settings=richard.config.settings
+
+- name: richard migrate
+  environment:
+    DJANGO_CONFIGURATION: Dev
+  django_manage: >
+    command=migrate
+    virtualenv="{{ richard_venv }}"
+    app_path="{{ richard_source }}"
+    settings='richard.config.settings'
+  notify:
+    - richard collectstatic
+
+- name: richard etc dir
+  file: >
+   path=/etc/richard
+   state=directory
+   owner=root
+   mode=755
+
+- name: richard uwsgi.ini
+  template: >
+    src=richard.uwsgi.ini.j2
+    dest=/etc/richard/uwsgi.ini
+    owner=root
+    group=root
+    mode=644
+
+- name: richard init.conf
+  template: >
+    src=richard.uwsgi.conf.j2
+    dest=/etc/init/richard.uwsgi.conf
+    owner=root
+    group=root
+    mode=644
+
+- name: richard.uwsgi service
+  service: name=richard.uwsgi state=started enabled=yes
+  tags: [service,richard]

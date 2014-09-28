@@ -1,0 +1,9 @@
+description "Richard uWSGI"
+start on level [2345]
+stop on level [06]
+
+setuid www-data
+setgid www-data
+
+exec {{ richard_venv }}/bin/uwsgi --ini /etc/richard/uwsgi.ini
+start on startup
