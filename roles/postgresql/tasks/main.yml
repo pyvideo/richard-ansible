@@ -1,0 +1,27 @@
+---
+- name: postgresql system dependencies are installed
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - postgresql
+    - postgresql-server-dev-9.3
+
+- name: postgresql is running
+  service: name=postgresql state=started
+
+- name: python postgres dependencies are installed
+  pip: name=psycopg2 state=present
+
+- name: postgresql database exists
+  postgresql_db: name={{ db_name }}
+                 encoding={{ db_encoding }}
+                 lc_collate={{ db_lc_collate }}
+                 lc_ctype={{ db_lc_ctype }}
+                 template='template0'
+                 state=present
+  sudo_user: postgres
+
+- name: postgresql richard role exists
+  postgresql_user: name={{ richard_user }} db={{ db_name }} role_attr_flags='NOSUPERUSER,NOCREATEROLE,NOCREATEDB'
+  sudo_user: postgres
+
+
