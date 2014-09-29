@@ -1,0 +1,14 @@
+dependencies:
+  - role: uwsgi
+    version: "2.0.6"
+    virtualenv: "{{ richard_venv }}"
+
+  - role: jdauphant.nginx
+    nginx_sites:
+      default:
+        - listen 80
+        - location / { uwsgi_pass richard_backend; include /etc/nginx/uwsgi_params; }
+        - location /static { alias /vagrant/src/richard/static; }
+    nginx_configs:
+      richard:
+        - upstream richard_backend { server unix:///tmp/richard.socket; }

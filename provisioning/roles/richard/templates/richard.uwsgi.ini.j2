@@ -1,0 +1,10 @@
+[uwsgi]
+uid = www-data
+gid = www-data
+chdir = /vagrant/src
+module = richard.config.wsgi:application
+home = {{ richard_venv }}
+socket = /tmp/richard.socket
+chmod-socket = 664
+master = true
+vacuum = true
