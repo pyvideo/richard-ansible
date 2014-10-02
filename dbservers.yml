@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: dbservers
   sudo: yes
   roles:
     - postgresql

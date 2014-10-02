@@ -21,7 +21,7 @@
   sudo_user: postgres
 
 - name: postgresql richard role exists
-  postgresql_user: name={{ richard_user }} db={{ db_name }} role_attr_flags='NOSUPERUSER,NOCREATEROLE,NOCREATEDB'
+  postgresql_user: name={{ db_user }} db={{ db_name }} role_attr_flags='NOSUPERUSER,NOCREATEROLE,NOCREATEDB'
   sudo_user: postgres
 
 
