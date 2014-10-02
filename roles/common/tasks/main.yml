@@ -1,7 +1,16 @@
 ---
-- name: install latest pip from apt
-  apt: pkg=python-pip state=installed
-  tags: pip
+- name: apt cache is up to date
+  apt: update_cache=yes
+
+- name: required packages are installed
+  apt: pkg={{ item }} state=installed
+  with_items:
+    build-essential
+    python-dev
+    python-pip
+    libxml2
+    libxslt-dev
+    libxslt1-dev
 
 - name: install pip from pypi
   pip: name=pip version=1.5.6
@@ -10,9 +19,3 @@
 - name: install virtualenv
   pip: name=virtualenv version=1.11.6
   tags: pip
-
-- name: install build-essential
-  apt: pkg=build-essential state=installed
-
-- name: install python-dev
-  apt: pkg=python-dev state=installed
