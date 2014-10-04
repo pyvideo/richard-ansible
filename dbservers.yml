@@ -1,5 +1,9 @@
 ---
 - hosts: dbservers
   sudo: yes
+  vars_files:
+    - vars/all.yml
+    - vars/secret.yml
   roles:
+    - common
     - postgresql

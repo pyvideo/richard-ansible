@@ -1,6 +1,9 @@
 ---
-- hosts: all
+- hosts: webservers
   sudo: yes
+  vars_files:
+    - vars/all.yml
+    - vars/secret.yml
   roles:
     - common
     - richard
