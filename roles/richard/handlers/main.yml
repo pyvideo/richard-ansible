@@ -1,12 +1,3 @@
 ---
 - name: restart richard uwsgi
   service: name=richard.uwsgi state=restarted
-
-- name: richard collectstatic
-  environment:
-    django_configuration: Dev
-  django_manage: >
-    command=collectstatic
-    virtualenv="{{ richard_venv }}"
-    app_path="{{ richard_source }}"
-    settings=richard.config.settings

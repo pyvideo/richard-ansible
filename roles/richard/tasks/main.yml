@@ -1,35 +1,56 @@
 ---
-- name: check if richard is installed
-  stat: >
-    path=/usr/lib/virtualenvs/richard/lib/python2.7/site-packages/richard.egg-link
-    get_md5=no
-  register: richard_egg
 
-- name: install richard into venv
-  pip: "name=. chdir={{ richard_source }} extra_args='-e' virtualenv={{ richard_venv }}"
-  sudo: yes
-  when: not richard_egg.stat.exists
+- name: richard user exists
+  user: name={{ richard_user }} group={{ richard_group }} shell=/bin/bash state=present
+
+- name: richard site directory exists
+  file: path={{ item }} state=directory owner={{ richard_user }} group={{ richard_group }}
+  with_items:
+    - {{ richard_dir }}
+    - {{ richard_dir }}/bin
+    - {{ richard_dir }}/logs
+
+- name: richard is cloned
+  git: repo={{ richard_repo }}
+       dest={{ richard_source }}
+       version={{ richard_version }}
+  sudo_user: {{ richard_user }}
+
+- name: install richard dependencies
+  pip: name=".\[postgresql\]"
+       chdir={{ richard_source }}
+       virtualenv={{ richard_venv }}
+  sudo_user: {{ richard_user }}
+
 
 - name: richard syncdb
   environment:
-    DJANGO_CONFIGURATION: Dev
+    DJANGO_CONFIGURATION: {{ richard_configuration }}
   django_manage: >
-    command=syncdb
-    virtualenv="{{ richard_venv }}"
-    app_path="{{ richard_source }}"
-    python_path="{{ richard_source }}"
+    command="syncdb --noinput --migrate"
+    virtualenv={{ richard_venv }}
+    app_path={{ richard_source }}
+    python_path={{ richard_source }}/richard
     settings=richard.config.settings
 
 - name: richard migrate
   environment:
-    DJANGO_CONFIGURATION: Dev
+    DJANGO_CONFIGURATION: {{ richard_configuration }}
   django_manage: >
     command=migrate
-    virtualenv="{{ richard_venv }}"
-    app_path="{{ richard_source }}"
-    settings='richard.config.settings'
-  notify:
-    - richard collectstatic
+    virtualenv={{ richard_venv }}
+    app_path={{ richard_source }}
+    python_path={{ richard_source }}/richard
+    settings=richard.config.settings
+
+- name: richard collectstatic
+  environment:
+    DJANGO_CONFIGURATION: {{ richard_configuration }}
+  django_manage: >
+  command="collectstatic --noinput"
+    virtualenv={{ richard_venv }}
+    app_path={{ richard_source }}
+    settings=richard.config.settings
 
 - name: richard etc dir
   file: >

@@ -8,3 +8,4 @@ richard_repo: "https://github.com/pyvideo/richard.git"
 # What version of the repository to check out. This can be the full 40-character
 # SHA-1 hash, the literal string HEAD, a branch name, or a tag name.
 richard_version: 76757262d79b74fc278ed37dc0b7ed82bb612d8f
+richard_configuration: Dev
