@@ -5,5 +5,4 @@
     - vars/all.yml
     - vars/secret.yml
   roles:
-    - common
     - postgresql
