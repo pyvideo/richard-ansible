@@ -1,73 +1,61 @@
 ---
-- name: apt cache is up to date
-  apt: update_cache=yes
-
-- name: required packages are installed
-  apt: pkg={{ item }} state=installed
-  with_items:
-    build-essential
-    python-dev
-    python-pip
-    libxml2
-    libxslt-dev
-    libxslt1-dev
-
-- name: install pip from pypi
-  pip: name=pip version=1.5.6
-
-- name: install virtualenv
-  pip: name=virtualenv version=1.11.6
-
 - name: richard user exists
-  user: name={{ richard_user }} group={{ richard_group }} shell=/bin/bash state=present
+  user: name="{{ richard_user }}" shell=/bin/bash state=present
 
 - name: richard site directory exists
-  file: path={{ item }} state=directory owner={{ richard_user }} group={{ richard_group }}
+  file: path="{{ item }}" state=directory owner="{{ richard_user }}" group="{{ richard_group }}"
   with_items:
-    - {{ richard_dir }}
-    - {{ richard_dir }}/bin
-    - {{ richard_dir }}/logs
+    - "{{ richard_dir }}"
+    - "{{ richard_dir }}/bin"
+    - "{{ richard_dir }}/logs"
 
 - name: richard is cloned
-  git: repo={{ richard_repo }}
-       dest={{ richard_source }}
-       version={{ richard_version }}
-  sudo_user: {{ richard_user }}
+  git: repo="{{ richard_repo }}"
+       dest="{{ richard_source }}"
+       version="{{ richard_version }}"
+  sudo_user: "{{ richard_user }}"
 
 - name: install richard dependencies
   pip: name=".\[postgresql\]"
-       chdir={{ richard_source }}
-       virtualenv={{ richard_venv }}
-  sudo_user: {{ richard_user }}
+       chdir="{{ richard_source }}"
+       virtualenv="{{ richard_venv }}"
+  sudo_user: "{{ richard_user }}"
+
+- name: install uwsgi
+  pip: name=uwsgi
+       version=2.0.7
+       virtualenv="{{ richard_venv }}"
+  sudo_user: "{{ richard_user }}"
 
 - name: richard syncdb
   environment:
-    DJANGO_CONFIGURATION: {{ richard_configuration }}
+    DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command="syncdb --noinput --migrate"
-    virtualenv={{ richard_venv }}
-    app_path={{ richard_source }}
-    python_path={{ richard_source }}/richard
+    virtualenv="{{ richard_venv }}"
+    app_path="{{ richard_source }}"
     settings=richard.config.settings
+  sudo_user: "{{ richard_user }}"
 
 - name: richard migrate
   environment:
-    DJANGO_CONFIGURATION: {{ richard_configuration }}
+    DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command=migrate
-    virtualenv={{ richard_venv }}
-    app_path={{ richard_source }}
-    python_path={{ richard_source }}/richard
+    virtualenv="{{ richard_venv }}"
+    app_path="{{ richard_source }}"
     settings=richard.config.settings
+  sudo_user: "{{ richard_user }}"
 
 - name: richard collectstatic
   environment:
-    DJANGO_CONFIGURATION: {{ richard_configuration }}
+    DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
-  command="collectstatic --noinput"
-    virtualenv={{ richard_venv }}
-    app_path={{ richard_source }}
+    command="collectstatic --noinput"
+    virtualenv="{{ richard_venv }}"
+    app_path="{{ richard_source }}"
     settings=richard.config.settings
+  sudo_user: "{{ richard_user }}"
 
 - name: richard etc dir
   file: >
