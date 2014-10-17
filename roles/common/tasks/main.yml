@@ -5,12 +5,21 @@
 - name: required packages are installed
   apt: pkg={{ item }} state=installed
   with_items:
-    build-essential
-    python-dev
-    python-pip
-    libxml2
-    libxslt-dev
-    libxslt1-dev
+    - python-software-properties
+    - build-essential
+    - python-dev
+    - python-pip
+    - libxml2
+    - libxslt-dev
+    - libxslt1-dev
+    - git
+    # not required, but nice to have
+    - tig
+    - vim
+    - curl
+    - tmux
+    - htop
+    - ack-grep
 
 - name: install pip from pypi
   pip: name=pip version=1.5.6
