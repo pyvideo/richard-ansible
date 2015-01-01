@@ -16,23 +16,19 @@
   sudo_user: "{{ richard_user }}"
 
 - name: install richard dependencies
-  pip: name=".\[postgresql\]"
+  pip: name=".\[dev,postgresql\]"
        chdir="{{ richard_source }}"
-       virtualenv="{{ richard_venv }}"
-  sudo_user: "{{ richard_user }}"
+       extra_args="-e"
 
 - name: install uwsgi
   pip: name=uwsgi
-       version=2.0.7
-       virtualenv="{{ richard_venv }}"
-  sudo_user: "{{ richard_user }}"
+       version=2.0.9
 
 - name: richard syncdb
   environment:
     DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command="syncdb --noinput --migrate"
-    virtualenv="{{ richard_venv }}"
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
@@ -42,7 +38,6 @@
     DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command=migrate
-    virtualenv="{{ richard_venv }}"
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
@@ -52,22 +47,14 @@
     DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command="collectstatic --noinput"
-    virtualenv="{{ richard_venv }}"
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
 
-- name: richard etc dir
-  file: >
-   path=/etc/richard
-   state=directory
-   owner=root
-   mode=755
-
 - name: richard uwsgi.ini
   template: >
     src=richard.uwsgi.ini.j2
-    dest=/etc/richard/uwsgi.ini
+    dest="{{ richard_uwsgi_ini }}"
     owner=root
     group=root
     mode=644

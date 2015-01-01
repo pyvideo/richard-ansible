@@ -1,1 +1,5 @@
 ---
+rax_name: pyvideo_ansible
+rax_flavor: 2 # m1.small
+#598a4282-f14b-4e50-af4c-b3e52749d9f9 Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)
+rax_image: 598a4282-f14b-4e50-af4c-b3e52749d9f9

@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: pyvideo
   sudo: yes
   vars_files:
     - vars/all.yml

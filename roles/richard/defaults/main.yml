@@ -3,6 +3,7 @@ richard_user: richard
 richard_group: richard
 richard_venv: /srv/pyvideo/venv
 richard_dir: /srv/pyvideo
+richard_uwsgi_ini: /srv/pyvideo/uwsgi.ini
 richard_source: /srv/pyvideo/richard
 richard_repo: "https://github.com/pyvideo/richard.git"
 # What version of the repository to check out. This can be the full 40-character

@@ -1,3 +1,0 @@
----
-- name: install uwsgi via pip
-  pip: "name=uwsgi version={{ version }} virtualenv={{ virtualenv }}"

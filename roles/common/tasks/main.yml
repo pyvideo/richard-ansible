@@ -1,15 +1,13 @@
 ---
-- name: apt cache is up to date
-  apt: update_cache=yes
-
 - name: required packages are installed
-  apt: pkg={{ item }} state=installed
+  apt: pkg={{ item }} state=installed update_cache=yes
   with_items:
     - python-software-properties
     - build-essential
     - python-dev
     - python-pip
     - libxml2
+    - libxml2-dev
     - libxslt-dev
     - libxslt1-dev
     - git
@@ -26,5 +24,5 @@
   tags: pip
 
 - name: install virtualenv
-  pip: name=virtualenv version=1.11.6
+  pip: name=virtualenv
   tags: pip
