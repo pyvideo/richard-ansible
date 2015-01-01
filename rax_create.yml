@@ -1,0 +1,29 @@
+# Playbook for creating a new rackspace cloud server.
+#
+# The authorized_keys file must be in ./file/authorized_keys
+#
+# ansible-playbook -i rax_inventory -vv rax_create.yml 
+---
+- name: Create a Rackspace Cloud Server
+  hosts: localhost
+  user: root
+  connection: local
+  gather_facts: False
+
+  vars_files:
+    - vars/all.yml
+
+  tasks:
+    - name: Provision an instance
+      local_action:
+          module: rax
+          name: "{{ rax_name }}"
+          flavor: "{{ rax_flavor }}"
+          image: "{{ rax_image }}"
+          files:
+            /root/.ssh/authorized_keys: ./files/authorized_keys
+          meta:
+            provisioned_by: ansible
+            used_for: pyvideo
+          wait: yes
+      register: rax

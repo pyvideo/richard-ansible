@@ -1,0 +1,5 @@
+[localhost]
+localhost ansible_connection=local
+
+[pyvideo]
+192.237.180.232
