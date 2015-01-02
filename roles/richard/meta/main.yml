@@ -8,4 +8,4 @@ dependencies:
         - location /static { alias {{ richard_dir }}/static; }
     nginx_configs:
       richard:
-        - upstream richard_backend { server unix:///tmp/richard.socket; }
+        - upstream richard_backend { server unix:///{{ richard_dir }}/richard.socket; }
