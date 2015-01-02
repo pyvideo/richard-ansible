@@ -3,11 +3,7 @@
   user: name="{{ richard_user }}" shell=/bin/bash state=present
 
 - name: richard site directory exists
-  file: path="{{ item }}" state=directory owner="{{ richard_user }}" group="{{ richard_group }}"
-  with_items:
-    - "{{ richard_dir }}"
-    - "{{ richard_dir }}/bin"
-    - "{{ richard_dir }}/logs"
+  file: path="{{ richard_dir }}" state=directory owner="{{ richard_user }}" group="{{ richard_group }}"
 
 - name: richard is cloned
   git: repo="{{ richard_repo }}"
