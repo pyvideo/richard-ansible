@@ -27,3 +27,18 @@
             used_for: pyvideo
           wait: yes
       register: rax
+
+    - name: Add new instance to host group
+      local_action: 
+        module: add_host
+        hostname: "{{ item.accessIPv4 }}"
+        groupname: raxhosts
+      with_items: rax.success
+      when: rax.action == 'create'
+
+- name: Configure basics
+  hosts: raxhosts
+  user: root
+
+  roles:
+    - common
