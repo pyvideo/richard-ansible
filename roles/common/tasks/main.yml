@@ -11,6 +11,7 @@
     - libxslt-dev
     - libxslt1-dev
     - git
+    - supervisor
     # not required, but nice to have
     - tig
     - vim

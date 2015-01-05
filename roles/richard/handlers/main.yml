@@ -1,3 +1,9 @@
 ---
-- name: restart richard uwsgi
-  service: name=richard.uwsgi state=restarted
+- name: restart richard
+  supervisorctl: name=richard state=restarted
+
+- name: start richard
+  supervisorctl: name=richard state=started
+
+- name: stop richard
+  supervisorctl: name=richard state=stopped
