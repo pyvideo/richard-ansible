@@ -2,8 +2,11 @@
 - name: richard user exists
   user: name="{{ richard_user }}" shell=/bin/bash state=present
 
-- name: richard site directory exists
-  file: path="{{ richard_dir }}" state=directory owner="{{ richard_user }}" group="{{ richard_group }}"
+- name: richard site directory tree exists
+  file: path="{{ item }}" state=directory owner="{{ richard_user }}" group="{{ richard_group }}"
+  with_items:
+    - "{{ richard_dir }}"
+    - "{{ richard_dir }}/logs"
 
 - name: richard is cloned
   git: repo="{{ richard_repo }}"
@@ -21,31 +24,28 @@
        version=2.0.9
 
 - name: richard syncdb
-  environment:
-    DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command="syncdb --noinput --migrate"
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
+  environment: "{{ richard_env }}"
 
 - name: richard migrate
-  environment:
-    DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command=migrate
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
+  environment: "{{ richard_env }}"
 
 - name: richard collectstatic
-  environment:
-    DJANGO_CONFIGURATION: "{{ richard_configuration }}"
   django_manage: >
     command="collectstatic --noinput"
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
+  environment: "{{ richard_env }}"
 
 - name: richard uwsgi.ini
   template: >
@@ -55,14 +55,11 @@
     group=root
     mode=644
 
-- name: richard init.conf
+- name: richard supervisor.conf
   template: >
-    src=richard.uwsgi.conf.j2
-    dest=/etc/init/richard.uwsgi.conf
+    src=richard.supervisor.conf.j2
+    dest=/etc/supervisor/conf.d/richard.conf
     owner=root
     group=root
-    mode=644
-
-- name: richard.uwsgi service
-  service: name=richard.uwsgi state=started enabled=yes
-  tags: [service,richard]
+    mode=600
+  notify: start richard
