@@ -4,8 +4,5 @@ dependencies:
     nginx_sites:
       default:
         - listen 80
-        - location / { uwsgi_pass richard_backend; include /etc/nginx/uwsgi_params; }
+        - location / { uwsgi_pass 127.0.0.1:{{ richard_port }}; include /etc/nginx/uwsgi_params; }
         - location /static { alias {{ richard_dir }}/static; }
-    nginx_configs:
-      richard:
-        - upstream richard_backend { server unix:///{{ richard_dir }}/richard.socket; }
