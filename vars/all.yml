@@ -1,5 +1,5 @@
 ---
-rax_name: pyvideo_ansible
+rax_name: ansible_pyvideo
 rax_flavor: 3 # 1 gig standard instance
 #598a4282-f14b-4e50-af4c-b3e52749d9f9 Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)
 rax_image: 598a4282-f14b-4e50-af4c-b3e52749d9f9
