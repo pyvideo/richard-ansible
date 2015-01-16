@@ -33,7 +33,7 @@
         module: add_host
         hostname: "{{ item.name}}"
         ansible_ssh_host: "{{ item.rax_accessipv4 }}"
-        ansible_ssh_pass: "{{ item.rax_adminpass }}"
+        #ansible_ssh_pass: "{{ item.rax_adminpass }}"
         groupname: raxhosts
       with_items: rax.success
       when: rax.action == 'create'
