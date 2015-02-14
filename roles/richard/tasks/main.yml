@@ -14,16 +14,16 @@
        version="{{ richard_version }}"
   sudo_user: "{{ richard_user }}"
 
-- name: install richard dependencies
+- name: richard dependencies are installed
   pip: name=".\[dev,postgresql\]"
        chdir="{{ richard_source }}"
        extra_args="-e"
 
-- name: install uwsgi
+- name: uwsgi is installed
   pip: name=uwsgi
        version=2.0.9
 
-- name: richard syncdb
+- name: richard database is synced with models
   django_manage: >
     command="syncdb --noinput --migrate"
     app_path="{{ richard_source }}"
@@ -31,7 +31,7 @@
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_env }}"
 
-- name: richard migrate
+- name: richard database is up to date with migrations
   django_manage: >
     command=migrate
     app_path="{{ richard_source }}"
@@ -39,7 +39,7 @@
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_env }}"
 
-- name: richard collectstatic
+- name: richard static files are up to date via collectstatic
   django_manage: >
     command="collectstatic --noinput"
     app_path="{{ richard_source }}"
@@ -47,7 +47,7 @@
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_env }}"
 
-- name: richard uwsgi.ini
+- name: richard uwsgi.ini is configured
   template: >
     src=richard.uwsgi.ini.j2
     dest="{{ richard_uwsgi_ini }}"
@@ -55,7 +55,7 @@
     group=root
     mode=644
 
-- name: richard supervisor.conf
+- name: richard supervisor.conf is configured
   template: >
     src=richard.supervisor.conf.j2
     dest=/etc/supervisor/conf.d/richard.conf

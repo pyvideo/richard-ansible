@@ -20,10 +20,10 @@
     - htop
     - ack-grep
 
-- name: install pip from pypi
+- name: pip is upgraded from pypi
   pip: name=pip extra_args="--upgrade"
   tags: pip
 
-- name: install virtualenv
+- name: virtualenv is installed from pypi
   pip: name=virtualenv
   tags: pip
