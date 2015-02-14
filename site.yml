@@ -1,3 +1,10 @@
 ---
-- include: dbservers.yml
-- include: webservers.yml
+- hosts: pyvideo
+  sudo: yes
+  vars_files:
+    - vars/all.yml
+    - vars/secret.yml
+  roles:
+    - common
+    - richard
+    - postgresql
