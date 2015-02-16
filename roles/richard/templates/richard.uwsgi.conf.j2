@@ -5,5 +5,5 @@ stop on level [06]
 setuid richard
 setgid richard
 
-exec uwsgi --ini {{ richard_dir }}/uwsgi.ini
+exec uwsgi --ini {{ richard_uwsgi_ini }}
 start on startup

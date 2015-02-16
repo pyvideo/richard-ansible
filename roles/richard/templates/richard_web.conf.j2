@@ -1,0 +1,25 @@
+server {
+    listen 80;
+    server_name localhost;
+    root /var/www;
+
+    location /robots.txt {
+        alias {{ richard_static }};
+    }
+
+    location /favicon.ico {
+        alias {{ richard_static }};
+    }
+
+    location /static/ {
+        alias {{ richard_static_root }};
+    }
+
+    location / {
+        uwsgi_pass 127.0.0.1:{{ richard_port }};
+        include /etc/nginx/uwsgi_params;
+    }
+
+    # what to serve if upstream is not available or crashes
+    error_page 500 502 503 504 /media/50x.html;
+}

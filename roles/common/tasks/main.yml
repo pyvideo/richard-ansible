@@ -13,7 +13,7 @@
     - libxslt-dev
     - libxslt1-dev
     - git
-    - supervisor
+    - nginx
     # not required, but nice to have
     - tig
     - vim
@@ -28,6 +28,10 @@
 
 - name: virtualenv is installed from pypi
   pip: name=virtualenv extra_args="--upgrade"
+  tags: pip
+
+- name: uwsgi is installed via pypi
+  pip: name=uwsgi extra_args="--upgrade"
   tags: pip
 
 - name: richard user exists

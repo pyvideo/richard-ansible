@@ -1,8 +1,0 @@
-dependencies:
-
-  - role: jdauphant.nginx
-    nginx_sites:
-      default:
-        - listen 80
-        - location / { uwsgi_pass 127.0.0.1:{{ richard_port }}; include /etc/nginx/uwsgi_params; }
-        - location /static { alias {{ richard_dir }}/static; }

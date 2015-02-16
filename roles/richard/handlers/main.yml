@@ -1,9 +1,9 @@
 ---
-- name: restart richard
-  supervisorctl: name=richard state=restarted
-
 - name: start richard
-  supervisorctl: name=richard state=started
+  service: name=richard.uwsgi state=started
 
-- name: stop richard
-  supervisorctl: name=richard state=stopped
+- name: restart richard
+  service: name=richard.uwsgi state=restarted
+
+- name: restart nginx
+  service: name=nginx state=restarted

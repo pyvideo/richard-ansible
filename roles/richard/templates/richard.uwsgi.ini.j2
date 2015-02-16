@@ -1,9 +1,7 @@
 [uwsgi]
 uid = richard
 gid = richard
-module = richard.config.wsgi:application
-socket = {{ richard_dir }}/richard.socket
-chmod-socket = 666
-#socket = 127.0.0.1:{{ richard_port }}
-master = true
-vacuum = true
+chdir = {{ richard_source }}
+wsgi-file = src/richard/config/wsgi.py
+socket = 127.0.0.1:{{ richard_port }}
+env = {{ richard_env }}
