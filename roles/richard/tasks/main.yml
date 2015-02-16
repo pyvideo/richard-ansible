@@ -65,6 +65,11 @@
     src=richard_web.conf.j2
     dest=/etc/nginx/sites-available/richard_web.conf
 
+- name: default nginx site is disabled
+  file:
+    path=/etc/nginx/sites-enabled/default
+    state=absent
+
 - name: richard nginx site is enabled
   file:
     src=/etc/nginx/sites-available/richard_web.conf

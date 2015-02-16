@@ -2,6 +2,7 @@
 uid = richard
 gid = richard
 chdir = {{ richard_source }}
-wsgi-file = src/richard/config/wsgi.py
+module = richard.config.wsgi:application
+#wsgi-file = src/richard/config/wsgi.py
 socket = 127.0.0.1:{{ richard_port }}
 env = {{ richard_env }}
