@@ -4,9 +4,7 @@
   with_items:
     - postgresql
     - postgresql-server-dev-9.3
-    - build-essential
-    - python-dev
-    - python-pip
+    - python-psycopg2
 
 - name: postgresql is running
   service: name=postgresql state=started

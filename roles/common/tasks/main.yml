@@ -6,6 +6,8 @@
     - build-essential
     - python-dev
     - python-pip
+    - postgresql
+    - postgresql-server-dev-9.3
     - libxml2
     - libxml2-dev
     - libxslt-dev
@@ -25,5 +27,9 @@
   tags: pip
 
 - name: virtualenv is installed from pypi
-  pip: name=virtualenv
+  pip: name=virtualenv extra_args="--upgrade"
   tags: pip
+
+- name: richard user exists
+  user: name="{{ richard_user }}" shell=/bin/bash state=present
+

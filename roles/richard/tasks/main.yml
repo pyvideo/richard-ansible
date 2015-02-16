@@ -1,7 +1,4 @@
 ---
-- name: richard user exists
-  user: name="{{ richard_user }}" shell=/bin/bash state=present
-
 - name: richard site directory tree exists
   file: path="{{ item }}" state=directory owner="{{ richard_user }}" group="{{ richard_group }}"
   with_items:
@@ -13,6 +10,11 @@
        dest="{{ richard_source }}"
        version="{{ richard_version }}"
   sudo_user: "{{ richard_user }}"
+
+- name: richard clone belongs to richard user
+  file: path="{{ richard_source }}"
+        recurse=yes
+        owner="{{ richard_user }}"
 
 - name: richard dependencies are installed
   pip: name=".\[dev,postgresql\]"
