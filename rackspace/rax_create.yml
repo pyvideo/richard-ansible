@@ -10,16 +10,15 @@
   connection: local
   gather_facts: False
 
-  vars_files:
-    - vars/all.yml
-
   tasks:
     - name: Provision an instance
       local_action:
           module: rax
-          name: "{{ rax_name }}"
-          flavor: "{{ rax_flavor }}"
-          image: "{{ rax_image }}"
+          name: ansible_pyvideo
+          # 3 is standard 1 gig instance
+          flavor: 3
+          # this image is Ubuntu 14.04 LTS (Trusty Tahr) (PVHVM)
+          image: 598a4282-f14b-4e50-af4c-b3e52749d9f9
           files:
             /root/.ssh/authorized_keys: ./files/authorized_keys
           meta:
