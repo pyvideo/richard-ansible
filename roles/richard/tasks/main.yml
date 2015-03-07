@@ -5,6 +5,12 @@
     - "{{ richard_dir }}"
     - "{{ richard_dir }}/logs"
 
+- name: helpful links to nginx logs exist
+  file: src=/var/log/nginx dest="{{ richard_dir }}/logs/nginx" state=link
+
+- name: helpful link to upstart uwsgi log exists
+  file: src=/var/log/upstart/richard.uwsgi.log dest="{{ richard_dir }}/logs/richard.uwsgi.log" state=link
+
 - name: richard is cloned
   git: repo="{{ richard_repo }}"
        dest="{{ richard_source }}"
@@ -27,7 +33,7 @@
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
-  environment: "{{ richard_env }}"
+  environment: "{{ richard_environment }}"
 
 - name: richard database is up to date with migrations
   django_manage: >
@@ -35,7 +41,7 @@
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
-  environment: "{{ richard_env }}"
+  environment: "{{ richard_environment }}"
 
 - name: richard static files are up to date via collectstatic
   django_manage: >
@@ -43,7 +49,7 @@
     app_path="{{ richard_source }}"
     settings=richard.config.settings
   sudo_user: "{{ richard_user }}"
-  environment: "{{ richard_env }}"
+  environment: "{{ richard_environment }}"
 
 - name: richard uwsgi.ini is available
   template: >

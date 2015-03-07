@@ -3,6 +3,11 @@ uid = richard
 gid = richard
 chdir = {{ richard_source }}
 module = richard.config.wsgi:application
-#wsgi-file = src/richard/config/wsgi.py
 socket = 127.0.0.1:{{ richard_port }}
-env = {{ richard_env }}
+env = DATABASE_URL={{ DATABASE_URL }}
+env = DJANGO_DEBUG={{ DJANGO_DEBUG }}
+env = DJANGO_CONFIGURATION={{ DJANGO_CONFIGURATION }}
+env = DJANGO_SECRET_KEY={{ DJANGO_SECRET_KEY }}
+env = RICHARD_API={{ RICHARD_API }}
+env = RICHARD_SITE_URL={{ RICHARD_SITE_URL }}
+env = DJANGO_SETTINGS_MODULE={{ DJANGO_SETTINGS_MODULE }}

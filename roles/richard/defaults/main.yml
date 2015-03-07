@@ -12,4 +12,11 @@ richard_repo: "https://github.com/pyvideo/richard.git"
 # What version of the repository to check out. This can be the full 40-character
 # SHA-1 hash, the literal string HEAD, a branch name, or a tag name.
 richard_version: 76757262d79b74fc278ed37dc0b7ed82bb612d8f
-richard_env: { DATABASE_URL: "postgres://:5432/richard", DJANGO_DEBUG: False, DJANGO_CONFIGURATION: Dev, DJANGO_SECRET_KEY: "dummy", RICHARD_API: True, RICHARD_SITE_URL: "http://127.0.0.1:8000" }
+DATABASE_URL: "postgres://:5432/richard"
+DJANGO_DEBUG: False
+DJANGO_CONFIGURATION: Dev
+DJANGO_SECRET_KEY: "dummy"
+RICHARD_API: True
+RICHARD_SITE_URL: "http://127.0.0.1:8000"
+DJANGO_SETTINGS_MODULE: "richard.config.settings"
+richard_environment: { DATABASE_URL: "{{ DATABASE_URL }}", DJANGO_DEBUG: "{{ DJANGO_DEBUG }}", DJANGO_CONFIGURATION: "{{ DJANGO_CONFIGURATION }}", DJANGO_SECRET_KEY: "{{ DJANGO_SECRET_KEY }}", RICHARD_API: "{{ RICHARD_API }}", RICHARD_SITE_URL: "{{ RICHARD_SITE_URL }}" }
