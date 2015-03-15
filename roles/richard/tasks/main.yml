@@ -8,6 +8,9 @@
 - name: helpful links to nginx logs exist
   file: src=/var/log/nginx dest="{{ richard_dir }}/logs/nginx" state=link
 
+- name: make sure upstart uwsgi log file exists before we symlink it
+  file: path=/var/log/upstart/richard.uwsgi.log state=touch
+
 - name: helpful link to upstart uwsgi log exists
   file: src=/var/log/upstart/richard.uwsgi.log dest="{{ richard_dir }}/logs/richard.uwsgi.log" state=link
 
