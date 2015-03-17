@@ -17,9 +17,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  # Need at least 512mb to compile lxml.
+  # Need at least 1gb to compile lxml.
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "512"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
   # Create a forwarded port mapping which allows access to a specific port
