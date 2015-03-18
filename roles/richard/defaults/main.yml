@@ -1,12 +1,17 @@
 ---
+# The name of the site--used to generate the /srv/{{ site_name }} directory.
+site_name: richardsite
+
+# Linux user/group things should run as
 richard_user: richard
 richard_group: richard
-richard_venv: /srv/pyvideo/venv
-richard_dir: /srv/pyvideo
-richard_uwsgi_ini: /srv/pyvideo/richard.wsgi.ini
+
+richard_dir: "/srv/{{ site_name }}"
+richard_venv: "{{ richard_dir }}/venv"
+richard_uwsgi_ini: "{{ richard_dir }}/richard.wsgi.ini"
 richard_port: 8000
-richard_source: /srv/pyvideo/richard
-richard_static: /srv/pyvideo/richard/src/richard/static
+richard_source: "{{ richard_dir }}/richard"
+richard_static: "{{ richard_source }}/src/richard/static"
 richard_repo: "https://github.com/pyvideo/richard.git"
 # What version of the repository to check out. This can be the full 40-character
 # SHA-1 hash, the literal string HEAD, a branch name, or a tag name.
