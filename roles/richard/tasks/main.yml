@@ -34,7 +34,7 @@
   django_manage: >
     command="syncdb --noinput --migrate"
     app_path="{{ richard_source }}"
-    settings=richard.config.settings
+    settings="{{ DJANGO_SETTINGS_MODULE }}"
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_environment }}"
 
@@ -42,7 +42,7 @@
   django_manage: >
     command=migrate
     app_path="{{ richard_source }}"
-    settings=richard.config.settings
+    settings="{{ DJANGO_SETTINGS_MODULE }}"
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_environment }}"
 
@@ -50,7 +50,7 @@
   django_manage: >
     command="collectstatic --noinput"
     app_path="{{ richard_source }}"
-    settings=richard.config.settings
+    settings="{{ DJANGO_SETTINGS_MODULE }}"
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_environment }}"
 
@@ -86,4 +86,3 @@
     state=link
   notify:
     - restart nginx
-
