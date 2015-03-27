@@ -14,16 +14,23 @@
 - name: helpful link to upstart uwsgi log exists
   file: src=/var/log/upstart/richard.uwsgi.log dest="{{ richard_dir }}/logs/richard.uwsgi.log" state=link
 
-- name: richard is cloned
+- name: richard repo is cloned
   git: repo="{{ richard_repo }}"
        dest="{{ richard_source }}"
        version="{{ richard_version }}"
   sudo_user: "{{ richard_user }}"
 
-- name: richard clone belongs to richard user
+- name: richard repo clone belongs to richard user
   file: path="{{ richard_source }}"
         recurse=yes
         owner="{{ richard_user }}"
+
+- name: site repo is cloned (if it exists)
+  git: repo="{{ site_repo }}"
+       version="{{ site_version }}"
+       dest="{{ site_source }}"
+  sudo_user: "{{ richard_user }}"
+  when: site_repo != "" and site_version != "" and site_source != ""
 
 - name: richard dependencies are installed
   pip: name=".\[dev,postgresql\]"
