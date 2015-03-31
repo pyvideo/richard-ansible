@@ -1,0 +1,21 @@
+---
+# Copy this file to site.yml and then edit it.
+
+# This file lets you add site-specific configuration allowing you to
+# have templates and configuration in another repository.
+
+# Git repository url for cloning the repo
+# site_repo: ""
+
+# Git rev-ish to checkout
+# site_version: ""
+
+# Directory to put the source in--should probably be {{ richard_dir}}/something
+# site_source: "{{ richard_dir }}/SOMETHING"
+
+# Comma-separated set of directories to append to sys.path to load your
+# settings files or anything else you need to load
+# site_path: ""
+
+# Django settings module to use if different than the default
+# DJANGO_SETTINGS_MODULE: "pyvideo_settings"
