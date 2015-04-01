@@ -19,6 +19,8 @@
        dest="{{ richard_source }}"
        version="{{ richard_version }}"
   sudo_user: "{{ richard_user }}"
+  notify:
+    - restart richard
 
 - name: richard repo clone belongs to richard user
   file: path="{{ richard_source }}"
@@ -31,11 +33,21 @@
        dest="{{ site_source }}"
   sudo_user: "{{ richard_user }}"
   when: site_repo != "" and site_version != "" and site_source != ""
+  notify:
+    - restart richard
+
+- name: site repo clone belongs to richard user
+  file: path="{{ site_source }}"
+        recurse=yes
+        owner="{{ richard_user }}"
+  when: site_repo != "" and site_version != "" and site_source != ""
 
 - name: richard dependencies are installed
   pip: name=".\[dev,postgresql\]"
        chdir="{{ richard_source }}"
        extra_args="-e"
+  notify:
+    - restart richard
 
 - name: richard database is synced with models
   django_manage: >
@@ -44,6 +56,8 @@
     settings="{{ DJANGO_SETTINGS_MODULE }}"
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_environment }}"
+  notify:
+    - restart richard
 
 - name: richard database is up to date with migrations
   django_manage: >
@@ -52,6 +66,8 @@
     settings="{{ DJANGO_SETTINGS_MODULE }}"
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_environment }}"
+  notify:
+    - restart richard
 
 - name: richard static files are up to date via collectstatic
   django_manage: >
@@ -60,6 +76,8 @@
     settings="{{ DJANGO_SETTINGS_MODULE }}"
   sudo_user: "{{ richard_user }}"
   environment: "{{ richard_environment }}"
+  notify:
+    - restart richard
 
 - name: richard uwsgi.ini is available
   template: >
