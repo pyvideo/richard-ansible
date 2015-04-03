@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Convenience script for setting up the environment and running manage.py.
+# Usage:
+# $ run_manage.sh <args>
+
+export DATABASE_URL="{{ DATABASE_URL }}"
+export DJANGO_DEBUG="{{ DJANGO_DEBUG }}"
+export DJANGO_CONFIGURATION="{{ DJANGO_CONFIGURATION }}"
+export DJANGO_SECRET_KEY="{{ DJANGO_SECRET_KEY }}"
+export RICHARD_API="{{ RICHARD_API }}"
+export RICHARD_SITE_URL="{{ RICHARD_SITE_URL }}"
+export DJANGO_SETTINGS_MODULE="{{ DJANGO_SETTINGS_MODULE }}"
+export SITE_PATH="{{ site_path }}"
+
+cd {{ richard_source }}
+
+python manage.py $@

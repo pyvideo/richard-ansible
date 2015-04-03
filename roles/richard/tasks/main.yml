@@ -79,6 +79,28 @@
   notify:
     - restart richard
 
+- name: rebuild index
+  django_manage: >
+    command="rebuild_index --noinput"
+    app_path="{{ richard_source }}"
+    settings="{{ DJANGO_SETTINGS_MODULE }}"
+  sudo_user: "{{ richard_user }}"
+  environment: "{{ richard_environment }}"
+
+# FIXME: The path here isn't necessarily where the whoosh index is.
+- name: index belongs to richard user
+  file: path="{{ richard_source }}"
+        recurse=yes
+        owner="{{ richard_user }}"
+
+- name: richard run_manage.sh is available
+  template: >
+    src=richard.run_manage.sh.j2
+    dest="{{ richard_run_manage_sh }}"
+    owner=richard
+    group=richard
+    mode=755
+
 - name: richard uwsgi.ini is available
   template: >
     src=richard.uwsgi.ini.j2

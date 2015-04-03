@@ -13,6 +13,7 @@ richard_port: 8000
 richard_source: "{{ richard_dir }}/richard"
 richard_static: "{{ richard_source }}/src/richard/static"
 richard_repo: "https://github.com/pyvideo/richard.git"
+richard_run_manage_sh: "{{ richard_source }}/run_manage.sh"
 # What version of the repository to check out. This can be the full 40-character
 # SHA-1 hash, the literal string HEAD, a branch name, or a tag name.
 richard_version: master
