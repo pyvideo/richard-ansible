@@ -7,6 +7,7 @@ Ansible playbook for deploying richard
 * Edit inventory/development to point to your server
 * Try running ./run.sh
 
+To see a example of this playbook in use, refer to <https://github.com/pyvideo/pyvideo-deploy>. This is what deploys <http://pyvideo.org>.
 
 Outstanding issues
 ==================
